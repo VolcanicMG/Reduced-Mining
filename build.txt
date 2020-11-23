@@ -1,0 +1,6 @@
+displayName = Reduced Mining
+author = Volcanic
+version = 1
+hideCode = true
+hideResources = true
+includePDB = true
