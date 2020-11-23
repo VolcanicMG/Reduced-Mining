@@ -1,6 +1,6 @@
 displayName = Reduced Mining
 author = Volcanic
-version = 1
+version = 1.0
 hideCode = true
 hideResources = true
 includePDB = true

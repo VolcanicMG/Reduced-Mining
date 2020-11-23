@@ -15,7 +15,7 @@ namespace DoubleOreDrop
 		[Tooltip("0 = '0% or Off', 1 = '100%'")]
 		[Increment(0.1f)]
 		[Range(0f, 1f)]
-		[DefaultValue(.5f)]
+		[DefaultValue(.2f)]
 		[Slider]
 		public float DropChance;
 
@@ -24,7 +24,7 @@ namespace DoubleOreDrop
 		[Tooltip("-3 = '-300% Decrease', 3 = '300% Increase'")]
 		[Increment(0.1f)]
 		[Range(-3f, 3f)]
-		[DefaultValue(0f)]
+		[DefaultValue(.2f)]
 		[Slider]
 		public float MiningSpeed;
 
