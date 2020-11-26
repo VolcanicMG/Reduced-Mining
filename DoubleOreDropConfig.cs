@@ -1,6 +1,6 @@
-
 using System.ComponentModel;
-using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
+using Terraria;
 using Terraria.ModLoader.Config;
 
 namespace DoubleOreDrop
@@ -9,6 +9,8 @@ namespace DoubleOreDrop
 	public class DoubleOreDropConfig : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ServerSide; //Change to client to make it only applicable to the client side
+		//DropChance won't work if clientside, because Drop() is called serverside.
+		//if MiningSpeed is clientside, it will desync in multiplayer for different values
 
 		[Header("Reduced Mining Ore Drop Chance")]
 		[Label("Set Ore Drop Chance; Current Chance")]
@@ -19,8 +21,8 @@ namespace DoubleOreDrop
 		[Slider]
 		public float DropChance;
 
-		[Header("Increase or Reduce Mining Speed")]
-		[Label("Increase/Decreas; Current Increase/Decrease %")]
+		[Header("Increase or Decrease Mining Speed")]
+		[Label("Increase/Decrease; Current Increase/Decrease %")]
 		[Tooltip("-3 = '-300% Decrease', 3 = '300% Increase'")]
 		[Increment(0.1f)]
 		[Range(-3f, 3f)]
@@ -32,6 +34,14 @@ namespace DoubleOreDrop
 		{
 			DoubleOreDrop.DropChance = DropChance;
 			DoubleOreDrop.MiningSpeed = -MiningSpeed;
+		}
+
+		//For when someone edits the config file directly
+		[OnDeserialized]
+		internal void OnDeserializedMethod(StreamingContext context)
+        {
+			DropChance = Utils.Clamp(DropChance, 0f, 1f);
+			MiningSpeed = Utils.Clamp(MiningSpeed, -3f, 3f);
 		}
 	}
 }
