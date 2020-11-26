@@ -9,6 +9,8 @@ namespace DoubleOreDrop
 	public class DoubleOreDropConfig : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ServerSide; //Change to client to make it only applicable to the client side
+		//DropChance won't work if clientside, because Drop() is called serverside.
+		//if MiningSpeed is clientside, it will desync in multiplayer for different values
 
 		[Header("Reduced Mining Ore Drop Chance")]
 		[Label("Set Ore Drop Chance; Current Chance")]
@@ -33,5 +35,7 @@ namespace DoubleOreDrop
 			DoubleOreDrop.DropChance = DropChance;
 			DoubleOreDrop.MiningSpeed = -MiningSpeed;
 		}
+
+		
 	}
 }
