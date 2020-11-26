@@ -1,6 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using System.Collections.Generic;
@@ -9,7 +7,7 @@ namespace DoubleOreDrop.Tiles
 {
     public class DoubleOreDropGlobalTile : GlobalTile
     {
-        Dictionary<int, int> OreDrops = new Dictionary<int, int>()
+        public static readonly Dictionary<int, int> OreDrops = new Dictionary<int, int>()
         {
             {TileID.Copper, ItemID.CopperOre},
             {TileID.Tin, ItemID.TinOre},
@@ -33,26 +31,34 @@ namespace DoubleOreDrop.Tiles
             {TileID.LunarOre, ItemID.LunarOre},
             {TileID.Lead, ItemID.LeadOre},
         };
+
         public override bool Drop(int i, int j, int type)
         {
-            if (Main.rand.NextFloat() <= DoubleOreDrop.DropChance)
+            //Easy exploit, break ore, place ore, break ore, etc
+            if (WorldGen.genRand.NextFloat() <= DoubleOreDrop.DropChance)
             {
-                if (Terraria.ID.TileID.Sets.Ore[type] && !(TileLoader.GetTile(type) is ModTile)) //Vanilla
-                {
-                    Item.NewItem(i * 16, j * 16, 16, 16, OreDrops[type], 1, false, -1, false, false);
-                }
+                ModTile modTile = TileLoader.GetTile(type);
 
-                if (TileLoader.GetTile(type) is ModTile && TileLoader.GetTile(type).Name.Contains("Ore")) //Modded
+                if (modTile == null)
                 {
-                    ModTile tile = TileLoader.GetTile(type);
-
-                    if (tile != null)
+                    //Vanilla
+                    if (TileID.Sets.Ore[type] && OreDrops.TryGetValue(type, out int item))
                     {
-                        if (tile.drop > 0)
+                        Item.NewItem(i * 16, j * 16, 16, 16, item, 1, false, -1, false, false);
+                    }
+                }
+                else
+                {
+                    //Modded
+                    //modTile.Name.Contains("Ore") is a bad way to detect if it's a modded ore. If the modder is smart he should have added his tile to TileID.Sets.Ore properly
+                    //If not, let the modder know of the ore that doesn't work
+                    if (TileID.Sets.Ore[type])
+                    {
+                        int drop = modTile.drop;
+                        if (drop > 0)
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, tile.drop, 1, false, -1, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, drop, 1, false, -1, false, false);
                         }
-                        return true;
                     }
                 }
             }
