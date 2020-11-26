@@ -1,6 +1,6 @@
-
 using System.ComponentModel;
-using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
+using Terraria;
 using Terraria.ModLoader.Config;
 
 namespace DoubleOreDrop
@@ -21,8 +21,8 @@ namespace DoubleOreDrop
 		[Slider]
 		public float DropChance;
 
-		[Header("Increase or Reduce Mining Speed")]
-		[Label("Increase/Decreas; Current Increase/Decrease %")]
+		[Header("Increase or Decrease Mining Speed")]
+		[Label("Increase/Decrease; Current Increase/Decrease %")]
 		[Tooltip("-3 = '-300% Decrease', 3 = '300% Increase'")]
 		[Increment(0.1f)]
 		[Range(-3f, 3f)]
@@ -36,6 +36,12 @@ namespace DoubleOreDrop
 			DoubleOreDrop.MiningSpeed = -MiningSpeed;
 		}
 
-		
+		//For when someone edits the config file directly
+		[OnDeserialized]
+		internal void OnDeserializedMethod(StreamingContext context)
+        {
+			DropChance = Utils.Clamp(DropChance, 0f, 1f);
+			MiningSpeed = Utils.Clamp(MiningSpeed, -3f, 3f);
+		}
 	}
 }
