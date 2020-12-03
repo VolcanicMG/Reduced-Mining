@@ -1,12 +1,11 @@
 
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader.Config;
 
 namespace DoubleOreDrop
-{	
+{
 	[Label("Reduced Mining Config")]
 	public class DoubleOreDropConfig : ModConfig
 	{
