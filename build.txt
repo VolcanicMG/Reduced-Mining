@@ -1,0 +1,7 @@
+displayName = Reduced Mining
+author = Volcanic
+version = 1.0.1
+homepage = https://forums.terraria.org/index.php?threads/reduced-mining-mod.100627/
+hideCode = true
+hideResources = true
+includePDB = true
