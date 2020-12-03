@@ -1,9 +1,0 @@
-Reduced Mining is a simple mod that reduces the amount of time spent mining so you can go off and work on more important things!
-
-[c/00FF00: Key Features (Both are configurable)]
-[c/ff00ff:•Increase/Decrease in pickaxe speed. Default: 20%] 
-[c/ff00ff:•Chance for ores to drop twice. Default: 20%] 
-
-CHANGELOG:
-V1.0
-Inital release
