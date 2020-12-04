@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -15,14 +14,10 @@ namespace DoubleOreDrop
 		public static Dictionary<int, int> oreTileToItem;
 		public static Dictionary<int, int> oreItemToTile;
 
-		public static List<Vector2> placedSpot;
-
 		public override void Load()
 		{
 			oreTileToItem = new Dictionary<int, int>();
 			oreItemToTile = new Dictionary<int, int>();
-
-			placedSpot = new List<Vector2>();
 		}
 
 		public override void Unload()
@@ -30,7 +25,7 @@ namespace DoubleOreDrop
 			oreTileToItem = null;
 			oreItemToTile = null;
 
-			placedSpot = null;
+			DoubleOreDropWorld.placedSpots = null;
 		}
 
 		public override void PostSetupContent()
@@ -53,18 +48,6 @@ namespace DoubleOreDrop
 					}
 				}
 			}
-		}
-
-		public override void PreSaveAndQuit()
-		{
-			Player player = Main.player[Main.myPlayer];
-
-			if (player.whoAmI != 255)//Don't want to get the server
-			{
-				player.GetModPlayer<DoubleOreDropPlayer>().dropSpotSaved = placedSpot;
-
-			}
-			base.PreSaveAndQuit();
 		}
 	}
 }

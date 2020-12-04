@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,23 +12,23 @@ namespace DoubleOreDrop.Tiles
 		public override bool Drop(int i, int j, int type)
 		{
 
-			if (!DoubleOreDrop.placedSpot.Contains(new Vector2(i, j)) && TileID.Sets.Ore[type]) //If the spot is not in the list then continue through the if statement
+			Point16 spot = new Point16(i, j);
+			if (!DoubleOreDropWorld.placedSpots.Contains(spot) && TileID.Sets.Ore[type]) //If the spot is not in the list then continue through the if statement
 			{
 
 				if (WorldGen.genRand.NextFloat() <= DoubleOreDrop.DropChance)
 				{
-					dropTheGoods(i, j, type); //drop twice
+					DropTheGoods(i, j, type); //drop twice
 
 					if (WorldGen.genRand.NextFloat() <= DoubleOreDrop.DropChance3)
 					{
-						dropTheGoods(i, j, type); //Drop 3 times
+						DropTheGoods(i, j, type); //Drop 3 times
 					}
 				}
 			}
-			else if (DoubleOreDrop.placedSpot.Contains(new Vector2(i, j)))//In the list
+			else if (DoubleOreDropWorld.placedSpots.Contains(spot)) //In the list
 			{
-				DoubleOreDrop.placedSpot.Remove(new Vector2(i, j));
-				DoubleOreDrop.placedSpot.Distinct().ToList();
+				DoubleOreDropWorld.placedSpots.Remove(spot);
 			}
 
 			return true;
@@ -39,11 +39,16 @@ namespace DoubleOreDrop.Tiles
 			//Netcode - In the main class just send i and j and add it to the list there?
 			if (DoubleOreDrop.oreItemToTile.ContainsKey(item.type))
 			{
-				DoubleOreDrop.placedSpot.Add(new Vector2(i, j));
+				Point16 spot = new Point16(i, j);
+				if (!DoubleOreDropWorld.placedSpots.Contains(spot))
+				{
+					//Don't allow duplicates to be added
+					DoubleOreDropWorld.placedSpots.Add(spot);
+				}
 			}
 		}
 
-		public void dropTheGoods(int i, int j, int type)
+		public void DropTheGoods(int i, int j, int type)
 		{
 			ModTile modTile = TileLoader.GetTile(type);
 
