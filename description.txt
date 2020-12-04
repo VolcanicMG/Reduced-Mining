@@ -1,13 +1,17 @@
 Reduced Mining is a simple mod that reduces the amount of time spent mining so you can go off and work on more important things!
 
-[c/00FF00: Key Features (Both are configurable)]
+[c/00FF00: Key Features (All are configurable)]
 [c/ff00ff:•Increase/Decrease in pickaxe speed. Default: +20%] 
 [c/ff00ff:•Chance for ores to drop twice. Default: 20%] 
-[c/ff00ff:•Triple Chance (Based off of 'Ore drop chance') Default 10%]
+[c/ff00ff:•Triple Chance. Default: +10% of drop twice value]
 
 CHANGELOG:
-V1.0.1
-Added the chance to get 3 three ores
-Updated the mod icon
+V1.1
+-Added in netcoding support
+-Fixed an exploit that allowed you to place down ores and pick them back up with twice the gain
+-Added code optimizations
+-Added the chance to get 3 three ores
+-Updated the mod icon
+
 V1.0
-Inital release
+-Initial release
