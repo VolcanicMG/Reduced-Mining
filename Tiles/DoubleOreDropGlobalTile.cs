@@ -1,7 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using Terraria;
+﻿using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,51 +7,28 @@ namespace DoubleOreDrop.Tiles
 {
 	public class DoubleOreDropGlobalTile : GlobalTile
 	{
-		Dictionary<int, int> OreDrops = new Dictionary<int, int>()
-		{
-			{TileID.Copper, ItemID.CopperOre},
-			{TileID.Tin, ItemID.TinOre},
-			{TileID.Iron, ItemID.IronOre},
-			{TileID.Silver, ItemID.SilverOre},
-			{TileID.Tungsten, ItemID.TungstenOre},
-			{TileID.Gold, ItemID.GoldOre},
-			{TileID.Platinum, ItemID.PlatinumOre},
-			{TileID.Meteorite, ItemID.Meteorite},
-			{TileID.Demonite, ItemID.DemoniteOre},
-			{TileID.Crimtane, ItemID.CrimtaneOre},
-			{TileID.Obsidian, ItemID.Obsidian},
-			{TileID.Hellstone, ItemID.Hellstone},
-			{TileID.Cobalt, ItemID.CobaltOre},
-			{TileID.Palladium, ItemID.PalladiumOre},
-			{TileID.Mythril, ItemID.MythrilOre},
-			{TileID.Orichalcum, ItemID.OrichalcumOre},
-			{TileID.Adamantite, ItemID.AdamantiteOre},
-			{TileID.Titanium, ItemID.TitaniumOre},
-			{TileID.Chlorophyte, ItemID.ChlorophyteOre},
-			{TileID.LunarOre, ItemID.LunarOre},
-			{TileID.Lead, ItemID.LeadOre},
-		};
-
 		public override bool Drop(int i, int j, int type)
 		{
 
-			if (!DoubleOreDrop.placedSpot.Contains(new Vector2(i, j)) && TileID.Sets.Ore[type]) //If the spot is not in the list then continue through the if statement
+			Point16 spot = new Point16(i, j);
+			if (!DoubleOreDropWorld.placedSpots.Contains(spot)) //If the spot is not in the list
 			{
-
-				if (WorldGen.genRand.NextFloat() <= DoubleOreDrop.DropChance)
+				if (TileID.Sets.Ore[type])
 				{
-					dropTheGoods(i, j, type); //drop twice
-
-					if (WorldGen.genRand.NextFloat() <= DoubleOreDrop.DropChance3)
+					if (WorldGen.genRand.NextFloat() <= DoubleOreDrop.DropChance)
 					{
-						dropTheGoods(i, j, type); //Drop 3 times
+						DropTheGoods(i, j, type); //drop twice
+
+						if (WorldGen.genRand.NextFloat() <= DoubleOreDrop.DropChance3)
+						{
+							DropTheGoods(i, j, type); //Drop 3 times
+						}
 					}
 				}
 			}
-			else if (DoubleOreDrop.placedSpot.Contains(new Vector2(i, j)))//In the list
+			else //In the list
 			{
-				DoubleOreDrop.placedSpot.Remove(new Vector2(i, j));
-				DoubleOreDrop.placedSpot.Distinct().ToList();
+				DoubleOreDropWorld.RemoveSpot(spot);
 			}
 
 			return true;
@@ -61,21 +36,21 @@ namespace DoubleOreDrop.Tiles
 
 		public override void PlaceInWorld(int i, int j, Item item)
 		{
-			//Netcode - In the main class just send i and j and add it to the list there?
-			if (DoubleOreDrop.oreItems.Contains(item.type))
+			if (DoubleOreDrop.oreItemToTile.ContainsKey(item.type))
 			{
-				DoubleOreDrop.placedSpot.Add(new Vector2(i, j));
+				Point16 spot = new Point16(i, j);
+				DoubleOreDropWorld.TryAddSpot(spot, clientWantsBroadcast: true);
 			}
 		}
 
-		public void dropTheGoods(int i, int j, int type)
+		public void DropTheGoods(int i, int j, int type)
 		{
 			ModTile modTile = TileLoader.GetTile(type);
 
 			if (modTile == null)
 			{
 				//Vanilla
-				if (TileID.Sets.Ore[type] && OreDrops.TryGetValue(type, out int item))
+				if (TileID.Sets.Ore[type] && DoubleOreDrop.oreTileToItem.TryGetValue(type, out int item))
 				{
 					Item.NewItem(i * 16, j * 16, 16, 16, item, 1, false, -1, false, false);
 				}
