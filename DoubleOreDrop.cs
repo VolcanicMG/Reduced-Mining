@@ -1,4 +1,6 @@
+using DoubleOreDrop.Netcode;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,6 +20,7 @@ namespace DoubleOreDrop
 		{
 			oreTileToItem = new Dictionary<int, int>();
 			oreItemToTile = new Dictionary<int, int>();
+			NetHandler.Load();
 		}
 
 		public override void Unload()
@@ -26,6 +29,7 @@ namespace DoubleOreDrop
 			oreItemToTile = null;
 
 			DoubleOreDropWorld.placedSpots = null;
+			NetHandler.Unload();
 		}
 
 		public override void PostSetupContent()
@@ -48,6 +52,12 @@ namespace DoubleOreDrop
 					}
 				}
 			}
+		}
+
+		public override void HandlePacket(BinaryReader reader, int whoAmI)
+		{
+			//This should be the only thing in this hook
+			NetHandler.HandlePackets(reader, whoAmI);
 		}
 	}
 }
