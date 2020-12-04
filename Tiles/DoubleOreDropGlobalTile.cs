@@ -9,31 +9,6 @@ namespace DoubleOreDrop.Tiles
 {
 	public class DoubleOreDropGlobalTile : GlobalTile
 	{
-		Dictionary<int, int> OreDrops = new Dictionary<int, int>()
-		{
-			{TileID.Copper, ItemID.CopperOre},
-			{TileID.Tin, ItemID.TinOre},
-			{TileID.Iron, ItemID.IronOre},
-			{TileID.Silver, ItemID.SilverOre},
-			{TileID.Tungsten, ItemID.TungstenOre},
-			{TileID.Gold, ItemID.GoldOre},
-			{TileID.Platinum, ItemID.PlatinumOre},
-			{TileID.Meteorite, ItemID.Meteorite},
-			{TileID.Demonite, ItemID.DemoniteOre},
-			{TileID.Crimtane, ItemID.CrimtaneOre},
-			{TileID.Obsidian, ItemID.Obsidian},
-			{TileID.Hellstone, ItemID.Hellstone},
-			{TileID.Cobalt, ItemID.CobaltOre},
-			{TileID.Palladium, ItemID.PalladiumOre},
-			{TileID.Mythril, ItemID.MythrilOre},
-			{TileID.Orichalcum, ItemID.OrichalcumOre},
-			{TileID.Adamantite, ItemID.AdamantiteOre},
-			{TileID.Titanium, ItemID.TitaniumOre},
-			{TileID.Chlorophyte, ItemID.ChlorophyteOre},
-			{TileID.LunarOre, ItemID.LunarOre},
-			{TileID.Lead, ItemID.LeadOre},
-		};
-
 		public override bool Drop(int i, int j, int type)
 		{
 
@@ -62,7 +37,7 @@ namespace DoubleOreDrop.Tiles
 		public override void PlaceInWorld(int i, int j, Item item)
 		{
 			//Netcode - In the main class just send i and j and add it to the list there?
-			if (DoubleOreDrop.oreItems.Contains(item.type))
+			if (DoubleOreDrop.oreItemToTile.ContainsKey(item.type))
 			{
 				DoubleOreDrop.placedSpot.Add(new Vector2(i, j));
 			}
@@ -75,7 +50,7 @@ namespace DoubleOreDrop.Tiles
 			if (modTile == null)
 			{
 				//Vanilla
-				if (TileID.Sets.Ore[type] && OreDrops.TryGetValue(type, out int item))
+				if (TileID.Sets.Ore[type] && DoubleOreDrop.oreTileToItem.TryGetValue(type, out int item))
 				{
 					Item.NewItem(i * 16, j * 16, 16, 16, item, 1, false, -1, false, false);
 				}

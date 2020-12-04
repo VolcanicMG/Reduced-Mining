@@ -12,38 +12,47 @@ namespace DoubleOreDrop
 		public static float MiningSpeed;
 		public static float DropChance3;
 
+		public static Dictionary<int, int> oreTileToItem;
+		public static Dictionary<int, int> oreItemToTile;
+
 		public static List<Vector2> placedSpot;
 
-		public static int[] oreItems;
+		public override void Load()
+		{
+			oreTileToItem = new Dictionary<int, int>();
+			oreItemToTile = new Dictionary<int, int>();
+
+			placedSpot = new List<Vector2>();
+		}
+
+		public override void Unload()
+		{
+			oreTileToItem = null;
+			oreItemToTile = null;
+
+			placedSpot = null;
+		}
 
 		public override void PostSetupContent()
 		{
-			oreItems = new int[]
+			for (int item = 0; item < ItemLoader.ItemCount; item++)
 			{
-				ItemID.CopperOre,
-				ItemID.TinOre,
-				ItemID.IronOre,
-				ItemID.SilverOre,
-				ItemID.TungstenOre,
-				ItemID.GoldOre,
-				ItemID.PlatinumOre,
-				ItemID.Meteorite,
-				ItemID.DemoniteOre,
-				ItemID.CrimtaneOre,
-				ItemID.Obsidian,
-				ItemID.Hellstone,
-				ItemID.CobaltOre,
-				ItemID.PalladiumOre,
-				ItemID.MythrilOre,
-				ItemID.OrichalcumOre,
-				ItemID.AdamantiteOre,
-				ItemID.TitaniumOre,
-				ItemID.ChlorophyteOre,
-				ItemID.LunarOre,
-				ItemID.LeadOre
-			};
+				Item test = new Item();
+				test.SetDefaults(item);
+				int tile = test.createTile;
+				if (tile > -1 && tile < TileLoader.TileCount && TileID.Sets.Ore[tile])
+				{
+					if (!oreTileToItem.ContainsKey(tile))
+					{
+						oreTileToItem.Add(tile, item);
+					}
 
-			placedSpot = new List<Vector2>();
+					if (!oreItemToTile.ContainsKey(item))
+					{
+						oreItemToTile.Add(item, tile);
+					}
+				}
+			}
 		}
 
 		public override void PreSaveAndQuit()

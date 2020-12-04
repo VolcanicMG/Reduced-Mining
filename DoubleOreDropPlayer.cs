@@ -11,6 +11,11 @@ namespace DoubleOreDrop
 	{
 		public List<Vector2> dropSpotSaved;
 
+		public override void Initialize()
+		{
+			dropSpotSaved = new List<Vector2>();
+		}
+
 		public override void ResetEffects()
 		{
 			player.pickSpeed += DoubleOreDrop.MiningSpeed;
