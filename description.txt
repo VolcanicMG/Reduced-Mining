@@ -10,7 +10,7 @@ V1.1
 -Added in netcoding support
 -Fixed an exploit that allowed you to place down ores and pick them back up with twice the gain
 -Added code optimizations
--Added the chance to get 3 three ores
+-Added the chance to get three ores
 -Updated the mod icon
 
 V1.0
