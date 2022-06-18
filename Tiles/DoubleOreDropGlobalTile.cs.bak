@@ -34,9 +34,9 @@ namespace DoubleOreDrop.Tiles
 			return true;
 		}
 
-		public override void PlaceInWorld(int i, int j, int type, Item item)
+		public override void PlaceInWorld(int i, int j, Item item)
 		{
-			if (DoubleOreDrop.oreItemToTile.ContainsKey(type))
+			if (DoubleOreDrop.oreItemToTile.ContainsKey(item.type))
 			{
 				Point16 spot = new Point16(i, j);
 				DoubleOreDropWorld.TryAddSpot(spot, clientWantsBroadcast: true);
@@ -62,7 +62,7 @@ namespace DoubleOreDrop.Tiles
 				//If not, let the modder know of the ore that doesn't work
 				if (TileID.Sets.Ore[type])
 				{
-					int drop = modTile.ItemDrop;
+					int drop = modTile.drop;
 					if (drop > 0)
 					{
 						Item.NewItem(i * 16, j * 16, 16, 16, drop, 1, false, -1, false, false);

@@ -6,12 +6,12 @@ namespace DoubleOreDrop
 	{
 		public override void ResetEffects()
 		{
-			Player.pickSpeed += DoubleOreDrop.MiningSpeed;
+			player.pickSpeed += DoubleOreDrop.MiningSpeed;
 		}
 
 		public override void PostUpdateMiscEffects()    // Put updates to damage, knockback, crit, and radius here
 		{
-			Player.pickSpeed += DoubleOreDrop.MiningSpeed;
+			player.pickSpeed += DoubleOreDrop.MiningSpeed;
 		}
 	}
 }
