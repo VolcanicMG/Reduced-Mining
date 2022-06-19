@@ -36,7 +36,7 @@ namespace DoubleOreDrop.Tiles
 
 		public override void PlaceInWorld(int i, int j, int type, Item item)
 		{
-			if (DoubleOreDrop.oreItemToTile.ContainsKey(type))
+			if (DoubleOreDrop.oreItemToTile.ContainsKey(item.type))
 			{
 				Point16 spot = new Point16(i, j);
 				DoubleOreDropWorld.TryAddSpot(spot, clientWantsBroadcast: true);
@@ -52,7 +52,7 @@ namespace DoubleOreDrop.Tiles
 				//Vanilla
 				if (TileID.Sets.Ore[type] && DoubleOreDrop.oreTileToItem.TryGetValue(type, out int item))
 				{
-					Item.NewItem(i * 16, j * 16, 16, 16, item, 1, false, -1, false, false);
+					Item.NewItem(WorldGen.GetItemSource_FromTileBreak(i, j), i * 16, j * 16, 16, 16, item, 1);
 				}
 			}
 			else
@@ -65,7 +65,7 @@ namespace DoubleOreDrop.Tiles
 					int drop = modTile.ItemDrop;
 					if (drop > 0)
 					{
-						Item.NewItem(i * 16, j * 16, 16, 16, drop, 1, false, -1, false, false);
+						Item.NewItem(WorldGen.GetItemSource_FromTileBreak(i, j), i * 16, j * 16, 16, 16, drop, 1);
 					}
 				}
 			}
