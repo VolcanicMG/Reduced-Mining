@@ -40,7 +40,6 @@ namespace DoubleOreDrop
 
 		public override void OnChanged()
 		{
-
 			DoubleOreDrop.DropChance = DropChance;
 			DoubleOreDrop.MiningSpeed = -MiningSpeed;
 			DoubleOreDrop.DropChance3 = DropChance3;
