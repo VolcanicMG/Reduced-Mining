@@ -76,6 +76,15 @@ namespace DoubleOreDrop
 		#region Methods
 		public static void TryAddSpot(Point16 spot, bool clientWantsBroadcast = false)
 		{
+			//if (Main.netMode == NetmodeID.Server)
+			//{
+			//	System.Console.WriteLine("added spot");
+			//}
+			//else
+			//{
+			//	Main.NewText("added spot");
+			//}
+
 			if (!placedSpots.Contains(spot))
 			{
 				//Don't allow duplicates to be added
@@ -90,6 +99,15 @@ namespace DoubleOreDrop
 
 		public static void RemoveSpot(Point16 spot)
 		{
+			//if (Main.netMode == NetmodeID.Server)
+			//{
+			//	System.Console.WriteLine("removed spot");
+			//}
+			//else
+			//{
+			//	Main.NewText("removed spot");
+			//}
+
 			//Initial call is serverside
 			placedSpots.Remove(spot);
 
