@@ -9,8 +9,11 @@ namespace DoubleOreDrop.Tiles
 	{
 		public override bool Drop(int i, int j, int type)
 		{
+			//Check to make sure we are not generating a new world
+			if (WorldGen.gen) return true;
 
 			Point16 spot = new Point16(i, j);
+
 			if (!DoubleOreDropWorld.placedSpots.Contains(spot)) //If the spot is not in the list
 			{
 				if (TileID.Sets.Ore[type])

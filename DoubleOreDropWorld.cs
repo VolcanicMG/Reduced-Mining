@@ -22,6 +22,10 @@ namespace DoubleOreDrop
 
 		public override void SaveWorldData(TagCompound tag)
 		{
+			/*For some reason on world generation this method is called at the end of the generation and
+			before we have a chance to initialize the hashset so we add the null check*/
+			if (placedSpots == null) return;
+
 			//Because tml TagCompound doesn't support HashSet<Point16>, we have to do some conversions here to List<Point16>
 			int count = placedSpots.Count;
 			if (count > 0)
