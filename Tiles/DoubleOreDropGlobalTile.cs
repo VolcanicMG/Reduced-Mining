@@ -10,7 +10,7 @@ namespace DoubleOreDrop.Tiles
 		public override bool Drop(int i, int j, int type)
 		{
 			//Check to make sure we are not generating a new world
-			if (WorldGen.gen) return true;
+			if (WorldGen.gen && WorldGen.generatingWorld) return false;
 
 			Point16 spot = new Point16(i, j);
 

@@ -20,6 +20,11 @@ namespace DoubleOreDrop
 			placedSpots = new HashSet<Point16>();
 		}
 
+		public override void PreWorldGen()
+		{
+			placedSpots = new HashSet<Point16>();
+		}
+
 		public override void SaveWorldData(TagCompound tag)
 		{
 			/*For some reason on world generation this method is called at the end of the generation and
