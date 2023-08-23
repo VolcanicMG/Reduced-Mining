@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System.Diagnostics;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,10 +8,10 @@ namespace DoubleOreDrop.Tiles
 {
 	public class DoubleOreDropGlobalTile : GlobalTile
 	{
-		public override bool Drop(int i, int j, int type)
+		public override void Drop(int i, int j, int type)
 		{
 			//Check to make sure we are not generating a new world
-			if (WorldGen.gen && WorldGen.generatingWorld) return false;
+			if (WorldGen.gen && WorldGen.generatingWorld) return ;
 
 			Point16 spot = new Point16(i, j);
 
@@ -33,8 +34,6 @@ namespace DoubleOreDrop.Tiles
 			{
 				DoubleOreDropWorld.RemoveSpot(spot);
 			}
-
-			return true;
 		}
 
 		public override void PlaceInWorld(int i, int j, int type, Item item)
@@ -65,10 +64,9 @@ namespace DoubleOreDrop.Tiles
 				//If not, let the modder know of the ore that doesn't work
 				if (TileID.Sets.Ore[type])
 				{
-					int drop = modTile.ItemDrop;
-					if (drop > 0)
+					foreach (var drop in modTile.GetItemDrops(i, j))
 					{
-						Item.NewItem(WorldGen.GetItemSource_FromTileBreak(i, j), i * 16, j * 16, 16, 16, drop, 1);
+						Item.NewItem(WorldGen.GetItemSource_FromTileBreak(i, j), i * 16, j * 16, 16, 16, drop.netID, 1);
 					}
 				}
 			}

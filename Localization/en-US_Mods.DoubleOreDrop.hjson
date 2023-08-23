@@ -1,0 +1,26 @@
+Configs: {
+	DoubleOreDropConfig: {
+		DisplayName: Double Ore Drop Config
+
+		Headers: {
+			OreDropChance: Ore Drop Chance Header
+			"TripleChance(Basedoffof'Oredropchance')": Triple Chance( Basedoffof' Oredropchance') Header
+			IncreaseorReduceMiningSpeed: Increaseor Reduce Mining Speed Header
+		}
+
+		DropChance: {
+			Label: Set Ore Drop Chance; Current Chance
+			Tooltip: 0 = '0% or Off', 1 = '100%'0 = '0% or Off', 1 = '100%'
+		}
+
+		DropChance3: {
+			Label: Set Ore Drop Chance; Current Chance
+			Tooltip: 0 = '0% or Off', 1 = '100%', 100% will drop another one depending on 'Ore Drop Chance'
+		}
+
+		MiningSpeed: {
+			Label: Increase/Decrease; Current Increase/Decrease %
+			Tooltip: -3 = '-300% Decrease', 3 = '300% Increase Or Max Limit'
+		}
+	}
+}
